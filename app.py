@@ -18,52 +18,37 @@ except Exception as e:
 # ==========================================
 # SIDEBAR (NAVIGASI & GLOBAL WARNING)
 # ==========================================
-st.sidebar.title("🌫️ Menu Navigasi")
+st.sidebar.title("🌫️ Dashboard Kualitas Udara DKI")
 menu = st.sidebar.radio(
     "Pilih Halaman Dashboard:",
     [
-        "🏠 Home (Ringkasan)", 
+        "🏠 Home", 
         "📈 Analisis Tren", 
-        "🗺️ Peta Spasial", 
-        "⚠️ Peringatan Dini"
     ]
 )
 
 st.sidebar.divider()
 
-# --- TAMBAHAN: SISTEM PERINGATAN GLOBAL DI SIDEBAR ---
-# Mencari data di tanggal paling akhir
-latest_date = df['tanggal'].max()
-df_latest = df[df['tanggal'] == latest_date]
+# Memberikan jarak kosong agar teks terdorong ke bawah
+st.sidebar.markdown("<br><br><br><br><br><br><br><br><br><br>", unsafe_allow_html=True)
 
-# Mengecek apakah ada stasiun yang ISPU-nya di atas 100
-jumlah_kritis = len(df_latest[df_latest['nilai_max_ispu'] > 100])
-
-st.sidebar.subheader("Status Hari Ini")
-if jumlah_kritis > 0:
-    st.sidebar.error(f"🚨 **AWAS:** Terdeteksi **{jumlah_kritis} stasiun** dengan polusi TIDAK SEHAT! \n\nCek menu Peringatan Dini untuk detailnya.")
-else:
-    st.sidebar.success("✅ Kualitas udara Jakarta terpantau AMAN.")
-# ------------------------------------------------------
-
-st.sidebar.divider()
-st.sidebar.info("Sistem Business Intelligence - Pemantauan Kualitas Udara DKI Jakarta.")
+# Teks kecil berwarna putih/abu-abu terang tanpa latar belakang di paling bawah
+st.sidebar.markdown(
+    """
+    <div style="font-size: 12px; color: #b0b0b0; text-align: left;">
+        Sistem Business Intelligence - Pemantauan Kualitas Udara DKI Jakarta.
+    </div>
+    """,
+    unsafe_allow_html=True
+)
 
 # ==========================================
 # ROUTING (PENGATUR HALAMAN)
 # ==========================================
-if menu == "🏠 Home (Ringkasan)":
+if menu == "🏠 Home":
     import screens.home as home
     home.render(df)
 
 elif menu == "📈 Analisis Tren":
     import screens.trend_analysis as trend_analysis
     trend_analysis.render(df)
-
-elif menu == "🗺️ Peta Spasial":
-    import screens.spatial_map as spatial_map
-    spatial_map.render(df)
-
-elif menu == "⚠️ Peringatan Dini":
-    import screens.early_warning as early_warning
-    early_warning.render(df)

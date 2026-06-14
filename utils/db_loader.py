@@ -8,7 +8,7 @@ conn = st.connection("mysql", type="sql")
 def load_all_data():
     query = """
         SELECT 
-            w.tanggal, w.nama_hari, w.nama_bulan, w.tahun,
+            w.tanggal, w.nama_hari, w.nama_bulan, w.tahun, w.is_weekend, w.is_holiday,
             s.nama_stasiun, s.wilayah, s.latitude, s.longitude,
             k.nama_kategori, k.warna_indikator,
             f.pm10, f.pm25, f.so2, f.co, f.o3, f.no2, 

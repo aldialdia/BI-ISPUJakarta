@@ -1,0 +1,43 @@
+2026-06-14 10:36:58,827 [INFO] ============================================================
+2026-06-14 10:36:58,827 [INFO] MULAI PROSES ETL - Sistem BI Kualitas Udara DKI Jakarta
+2026-06-14 10:36:58,827 [INFO] ============================================================
+2026-06-14 10:36:58,828 [INFO] [EXTRACT] Membaca file CSV sumber data...
+2026-06-14 10:36:58,889 [INFO] [EXTRACT] Berhasil membaca 5538 baris dari CSV.
+2026-06-14 10:36:58,889 [INFO] [STAGING] Menyimpan data mentah ke staging area (tabel staging_ispu_raw)...
+2026-06-14 10:36:59,640 [INFO] [STAGING] 5538 baris berhasil disimpan ke staging_ispu_raw.
+2026-06-14 10:36:59,641 [INFO] [CLEANING] Memulai proses pembersihan data...
+2026-06-14 10:36:59,655 [INFO] [CLEANING] Format tanggal distandarisasi ke datetime.
+2026-06-14 10:36:59,661 [INFO] [CLEANING] Kapitalisasi kolom 'categori' distandarisasi.
+2026-06-14 10:36:59,673 [INFO] [CLEANING] Kolom 'pm10': missing values diisi dengan median (57.00).
+2026-06-14 10:36:59,675 [INFO] [CLEANING] Kolom 'pm25': missing values diisi dengan median (90.00).
+2026-06-14 10:36:59,679 [INFO] [CLEANING] Kolom 'so2': missing values diisi dengan median (18.00).
+2026-06-14 10:36:59,682 [INFO] [CLEANING] Kolom 'co': missing values diisi dengan median (18.00).
+2026-06-14 10:36:59,685 [INFO] [CLEANING] Kolom 'o3': missing values diisi dengan median (69.00).
+2026-06-14 10:36:59,688 [INFO] [CLEANING] Kolom 'no2': missing values diisi dengan median (12.00).
+2026-06-14 10:36:59,690 [INFO] [CLEANING] Kolom 'max': missing values diisi dengan median (90.00).
+2026-06-14 10:36:59,691 [INFO] [CLEANING] Total missing values sebelum imputasi: 4766
+2026-06-14 10:36:59,711 [INFO] [CLEANING] Duplicate removal: 0 baris duplikat dihapus.
+2026-06-14 10:36:59,713 [INFO] [CLEANING] Ditemukan 4 baris dengan kategori 'TIDAK ADA DATA'.
+2026-06-14 10:36:59,714 [INFO] [CLEANING] Selesai. Data bersih: 5538 baris (dari 5538 awal).
+2026-06-14 10:36:59,715 [INFO] [TRANSFORM] Memulai transformasi data...
+2026-06-14 10:36:59,721 [INFO] [TRANSFORM] Dim_Stasiun dibuat: 5 baris.
+2026-06-14 10:36:59,724 [INFO] [TRANSFORM] Dim_Kategori_ISPU dibuat: 6 baris.
+2026-06-14 10:36:59,893 [INFO] [TRANSFORM] Dim_Waktu dibuat: 5538 baris.
+2026-06-14 10:36:59,894 [INFO] [TRANSFORM] Jumlah hari libur nasional terdeteksi: 91
+2026-06-14 10:36:59,937 [WARNING] [TRANSFORM] 1 baris gagal mapping ke Dim_Stasiun!
+2026-06-14 10:36:59,941 [INFO] [TRANSFORM] Fact_ISPU_Harian dibuat: 5538 baris.
+2026-06-14 10:36:59,942 [INFO] [LOAD] Memulai pemuatan data ke database MySQL...
+2026-06-14 10:37:00,425 [INFO] [LOAD] Dim_Waktu: 5538 baris berhasil dimuat ke 'dim_waktu'.
+2026-06-14 10:37:00,490 [INFO] [LOAD] Dim_Stasiun: 5 baris berhasil dimuat ke 'dim_stasiun'.
+2026-06-14 10:37:00,541 [INFO] [LOAD] Dim_Kategori_ISPU: 6 baris berhasil dimuat ke 'dim_kategori_ISPU'.
+2026-06-14 10:37:01,019 [INFO] [LOAD] Fact_ISPU_Harian: 5538 baris berhasil dimuat.
+2026-06-14 10:37:01,019 [INFO] ============================================================
+2026-06-14 10:37:01,020 [INFO] RINGKASAN PROSES ETL
+2026-06-14 10:37:01,020 [INFO]   Baris diekstrak (CSV)       : 5538
+2026-06-14 10:37:01,021 [INFO]   Baris duplikat dihapus      : 0
+2026-06-14 10:37:01,021 [INFO]   Missing values diimputasi   : 4766
+2026-06-14 10:37:01,022 [INFO]   Baris data bersih           : 5538
+2026-06-14 10:37:01,022 [INFO]   Baris dimuat ke fakta       : 5538
+2026-06-14 10:37:01,023 [INFO]   Log disimpan ke             : etl_log_20260614_103658.log
+2026-06-14 10:37:01,023 [INFO] ETL SELESAI.
+2026-06-14 10:37:01,023 [INFO] ============================================================
