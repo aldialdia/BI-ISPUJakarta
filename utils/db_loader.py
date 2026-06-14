@@ -4,7 +4,7 @@ import pandas as pd
 # Inisialisasi koneksi mengambil dari .streamlit/secrets.toml
 conn = st.connection("mysql", type="sql")
 
-@st.cache_data(ttl="1d") # Cache disimpan agar query tidak berulang
+@st.cache_data(ttl=300) # Cache 5 menit — agar data baru dari upload cepat tampil
 def load_all_data():
     query = """
         SELECT 
@@ -21,4 +21,4 @@ def load_all_data():
     df = conn.query(query)
     # Pastikan tipe data tanggal terbaca dengan benar di Pandas
     df['tanggal'] = pd.to_datetime(df['tanggal'])
-    return df
+    return df

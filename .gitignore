@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+*.pyo
+.streamlit/secrets.toml
+etl_log_*.log
+check_dupes.py
+generate_dummy.py
+*.csv

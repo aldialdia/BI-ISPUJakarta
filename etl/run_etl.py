@@ -248,7 +248,7 @@ def run_etl():
     tabel_dimensi = [
         (dim_waktu,    'dim_waktu',          'Dim_Waktu'),
         (dim_stasiun,  'dim_stasiun',         'Dim_Stasiun'),
-        (dim_kategori, 'dim_kategori_ISPU',   'Dim_Kategori_ISPU'),
+        (dim_kategori, 'dim_kategori_ispu',   'Dim_Kategori_ISPU'),
     ]
 
     for df_tabel, nama_tabel, label in tabel_dimensi:
@@ -259,10 +259,14 @@ def run_etl():
         logger.info(f"[LOAD] {label}: {jumlah} baris berhasil dimuat ke '{nama_tabel}'.")
 
     # Load tabel fakta (setelah semua dimensi)
-    fact_ispu_harian.to_sql('fact_ISPU_Harian', con=engine, if_exists='replace', index=False)
-    with engine.connect() as conn:
-        jumlah_fakta = conn.execute(text("SELECT COUNT(*) FROM `fact_ISPU_Harian`")).scalar()
-    logger.info(f"[LOAD] Fact_ISPU_Harian: {jumlah_fakta} baris berhasil dimuat.")
+    try:
+        fact_ispu_harian.to_sql('fact_ispu_harian', con=engine, if_exists='replace', index=False)
+        logger.info(f"[LOAD] Fact_ISPU_Harian: {len(fact_ispu_harian)} baris berhasil dimuat ke 'fact_ispu_harian'.")
+    except Exception as e:
+        logger.error(f"[LOAD] Gagal memuat ke 'fact_ispu_harian': {e}")
+        raise
+
+    jumlah_fakta = len(fact_ispu_harian)
 
     # ==========================================
     # 6. RINGKASAN LOG ETL (Admin BI - Tabel 4.1 M2)
