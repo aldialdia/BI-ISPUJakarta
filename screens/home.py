@@ -174,6 +174,35 @@ def render(df):
             )
         )
         st.plotly_chart(fig_bar, use_container_width=True)
+        
+        # --- INSIGHT CARDS KONSENTRASI POLUTAN ---
+        polutan_tertinggi = df_melted.loc[df_melted['Konsentrasi'].idxmax()]
+        
+        # Hitung stasiun paling aman hari ini
+        stasiun_terbaik = df_latest.loc[df_latest['nilai_max_ispu'].idxmin()]
+        
+        c1, c2, c3 = st.columns(3)
+        with c1:
+            st.markdown(f"""
+            <div class="insight-card">
+                <h4>Konsentrasi Tertinggi</h4>
+                <p>Parameter <strong>{polutan_tertinggi['Jenis Polutan']}</strong> mencapai puncaknya di angka <strong>{polutan_tertinggi['Konsentrasi']:.1f}</strong> µg/m³ pada stasiun <strong>{polutan_tertinggi['nama_stasiun']}</strong>.</p>
+            </div>
+            """, unsafe_allow_html=True)
+        with c2:
+            st.markdown(f"""
+            <div class="premium-card" style="border-left: 4px solid #3B82F6;">
+                <h4 style="color: #60A5FA;">Polutan Dominan (ISPU)</h4>
+                <p>Berdasarkan indeks standar, <strong>{dom_pol}</strong> menjadi polutan paling kritis dan penentu nilai ISPU hari ini.</p>
+            </div>
+            """, unsafe_allow_html=True)
+        with c3:
+            st.markdown(f"""
+            <div class="premium-card" style="border-left: 4px solid #10B981;">
+                <h4 style="color: #34D399;">Wilayah Teraman</h4>
+                <p>Kualitas udara terbaik hari ini berada di stasiun <strong>{stasiun_terbaik['nama_stasiun']}</strong> dengan nilai ISPU terendah (<strong>{stasiun_terbaik['nilai_max_ispu']:.0f}</strong>).</p>
+            </div>
+            """, unsafe_allow_html=True)
 
     st.divider()
 
@@ -326,6 +355,35 @@ def render(df):
         coloraxis_showscale=False
     )
     st.plotly_chart(fig_avg, use_container_width=True)
+    
+    # --- INSIGHT CARDS RATA-RATA HISTORIS ---
+    if not avg_per_station.empty:
+        sta_tertinggi = avg_per_station.iloc[0]
+        sta_terendah = avg_per_station.iloc[-1]
+        selisih = sta_tertinggi['nilai_max_ispu'] - sta_terendah['nilai_max_ispu']
+        
+        c1, c2, c3 = st.columns(3)
+        with c1:
+            st.markdown(f"""
+            <div class="insight-card">
+                <h4>Historis Tertinggi</h4>
+                <p>Secara historis, stasiun <strong>{sta_tertinggi['nama_stasiun']}</strong> memiliki rata-rata ISPU tertinggi (<strong>{sta_tertinggi['nilai_max_ispu']:.1f}</strong>).</p>
+            </div>
+            """, unsafe_allow_html=True)
+        with c2:
+            st.markdown(f"""
+            <div class="premium-card" style="border-left: 4px solid #10B981;">
+                <h4 style="color: #34D399;">Historis Terendah (Terbersih)</h4>
+                <p>Stasiun <strong>{sta_terendah['nama_stasiun']}</strong> mencatat rata-rata ISPU paling rendah (<strong>{sta_terendah['nilai_max_ispu']:.1f}</strong>).</p>
+            </div>
+            """, unsafe_allow_html=True)
+        with c3:
+            st.markdown(f"""
+            <div class="premium-card" style="border-left: 4px solid #F59E0B;">
+                <h4 style="color: #FCD34D;">Kesenjangan Kualitas</h4>
+                <p>Terdapat selisih rata-rata ISPU sebesar <strong>{selisih:.1f}</strong> poin antara wilayah paling berpolusi dan paling bersih.</p>
+            </div>
+            """, unsafe_allow_html=True)
 
     st.divider()
 

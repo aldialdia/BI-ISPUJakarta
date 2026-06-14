@@ -321,7 +321,7 @@ st.sidebar.title("Dashboard Kualitas Udara DKI")
 menu = st.sidebar.radio(
     "Pilih Halaman Dashboard:",
     [
-        "Ringkasan", 
+        "Beranda", 
         "Analisis Tren",
         "Upload Data"
     ]
@@ -357,7 +357,7 @@ else:
         st.error(f"Gagal memuat data dari database: {e}")
         st.stop() 
 
-    if menu == "Ringkasan":
+    if menu == "Beranda":
         import screens.home as home
         home.render(df)
 
